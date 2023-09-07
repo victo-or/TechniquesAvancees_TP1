@@ -45,7 +45,6 @@ function updateStockData() {
 // Mettre à jour les données des stocks au démarrage du serveur
 updateStockData();
 
-// Forcer l'utilisation des 
 app.use("/static", express.static(path.resolve(__dirname, 'frontend', 'static')))
 
 app.get("/*", (req, res) => {

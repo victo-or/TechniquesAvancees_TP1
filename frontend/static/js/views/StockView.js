@@ -20,13 +20,13 @@ export default class extends AbstractView {
             return `
                 <h1>Stock not found</h1>
                 <p>The symbol "${symbol}" does not exist among our stock list.</p>
-                <p><a href="/">See our current meme stocks</a></p>
+                <p><a href="/" data-link>See our current meme stocks</a></p>
             `;
         }
         // Vérifiez si la note existe dans les données (lorsque l'api ne renvoie pas les données)
         if ("Note" in stockData) {
             return `
-                <a href="/"><< Back to list</a>
+                <a href="/" data-link><< Back to list</a>
                 <h1>${symbol} Stock</h1>
                 <p>Data is temporarily not available. Please try again later!</p>
             `;
@@ -39,7 +39,7 @@ export default class extends AbstractView {
         const firstData = stockData["Time Series (5min)"][firstDate];
 
         return `
-            <a href="/"><< Back to list</a>
+            <a href="/" data-link><< Back to list</a>
             <h1>${symbol} Stock</h1>
             <p>Information: ${metaData["1. Information"]}</p>
             <p>Last Refreshed: ${metaData["3. Last Refreshed"]}</p>
