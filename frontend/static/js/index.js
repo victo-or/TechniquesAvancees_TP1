@@ -4,7 +4,7 @@ import About from "./views/About.js"
 import StockView from "./views/StockView.js"
 
 // 9. Définir une expression régulière pour les routes
-const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$")
+const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$", "i");
 
 // 10. Obtenir les paramètres à partir d'une correspondance de route
 const getParams = match => {
@@ -21,7 +21,6 @@ const router = async () => {
     // 2. Définir les routes possibles avec leurs vues correspondantes
     const routes = [
         { path: '/', view: Home },
-        // { path: '/stocks', view: Stocks },
         { path: '/stock-view/:symbol', view: StockView },
         { path: '/about', view: About }
     ]
