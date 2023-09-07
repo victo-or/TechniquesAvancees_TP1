@@ -3,11 +3,10 @@ const app = express();
 const request = require('request');
 const { PORT } = require('./config.js');
 const { API_KEY } = require('./config.js');
+const { stocks } = require('./config.js');
 const fs = require('fs');
 const path = require("path");
 
-// tableau avec une sélection de stocks
-const stocks = ["TSLA", "NIO", "GME", "AMC", "PLTR", "SPCE", "MVIS", "MARA", "RIOT", "SNDL"];
 
 // Fonction pour mettre à jour les données des stocks et les enregistrer dans stocks.json
 function updateStockData() {

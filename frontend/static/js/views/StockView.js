@@ -1,4 +1,5 @@
-import AbstractView from "./AbstractView.js"
+import AbstractView from "./AbstractView.js";
+const stocks = ["TSLA", "NIO", "GME", "AMC", "PLTR", "SPCE", "MVIS", "MARA", "RIOT", "SNDL"];
 
 export default class extends AbstractView {
     constructor(params) {
@@ -13,22 +14,32 @@ export default class extends AbstractView {
         console.log("Symbol:", symbol);
         console.log("Stock Data:", stockData);
 
-        // Vérifiez si la note existe dans les données
+
+        // Vérifiez si le symbole existe dans le tableau "stocks"
+        if (!stocks.includes(symbol)) {
+            return `
+                <h1>Stock not found</h1>
+                <p>The symbol "${symbol}" does not exist among our stock list.</p>
+                <p><a href="/">See our current meme stocks</a></p>
+            `;
+        }
+        // Vérifiez si la note existe dans les données (lorsque l'api ne renvoie pas les données)
         if ("Note" in stockData) {
             return `
+                <a href="/"><< Back to list</a>
                 <h1>${symbol} Stock</h1>
-                <p>Information non disponible pour le moment!</p>
+                <p>Data is temporarily not available. Please try again later!</p>
             `;
         }
 
         const metaData = stockData["Meta Data"];
-        const timeSeriesData = stockData["Time Series (5min)"];
 
         // Obtenez la première date du tableau "Time Series (5min)"
         const firstDate = Object.keys(stockData["Time Series (5min)"])[0];
         const firstData = stockData["Time Series (5min)"][firstDate];
 
         return `
+            <a href="/"><< Back to list</a>
             <h1>${symbol} Stock</h1>
             <p>Information: ${metaData["1. Information"]}</p>
             <p>Last Refreshed: ${metaData["3. Last Refreshed"]}</p>
@@ -45,6 +56,6 @@ export default class extends AbstractView {
     async getStockData(symbol) {
         const response = await fetch('/static/js/views/stocks.json');
         const data = await response.json();
-        return data[symbol]; // Récupérez les données spécifiques à l'action boursière en utilisant le symbole
+        return data[symbol]; // Récupérez les données spécifiques au stock en utilisant le symbole
     }
 }

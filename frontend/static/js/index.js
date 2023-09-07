@@ -1,84 +1,71 @@
-// 6 load view
+// 6. Charger les vues
 import Home from "./views/Home.js"
 import About from "./views/About.js"
-// import Stocks from "./views/Stocks.js"
 import StockView from "./views/StockView.js"
 
-// 9
-// Ex.:    /stock-view/2
+// 9. Définir une expression régulière pour les routes
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$")
 
+// 10. Obtenir les paramètres à partir d'une correspondance de route
 const getParams = match => {
     const values = match.result.slice(1)
     const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(result => result[1]);
-    //console.log(Array.from(match.route.path.matchAll(/:(\w+)/g)))
-    //return {}
-
-    return Object.fromEntries(keys.map((key, i) =>{
+    
+    return Object.fromEntries(keys.map((key, i) => {
         return [key, values[i]]
     }))
 }
 
-
-// 1 router
+// 1. Gérer les routes
 const router = async () => {
-// console.log(pathToRegex("/stock-view/:symbol"));
+    // 2. Définir les routes possibles avec leurs vues correspondantes
     const routes = [
-        {path: '/', view: Home},
-        // {path: '/stocks', view: Stocks},
-        {path: '/stock-view/:symbol', view: StockView},
-        {path: '/about', view: About}
+        { path: '/', view: Home },
+        // { path: '/stocks', view: Stocks },
+        { path: '/stock-view/:symbol', view: StockView },
+        { path: '/about', view: About }
     ]
 
-    // 2 match function
+    // 3. Rechercher une correspondance entre l'URL actuelle et les routes
     const potentialMatches = routes.map(route => {
         return {
             route: route,
-            // isMatch: location.pathname === route.path
-            // 9
             result: location.pathname.match(pathToRegex(route.path))
         }
     })
-    // console.log(potentialMatches)
 
-    // 3
-    // let match = potentialMatches.find(potentialMatch => potentialMatch.isMatch)
+    // 4. Trouver la première correspondance
     let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null)
 
-    // s'il n'y a pas de match, ça va simplement afficher la page '/'
-    if(!match) {
+    // 5. Si aucune correspondance, afficher la page par défaut ('/')
+    if (!match) {
         match = {
             route: routes[0],
-            // isMatch: true
-            result:[location.pathname]
+            result: [location.pathname]
         }
     }
-    // console.log(match.result)
 
-    // 7 instance de la classe
-    // console.log(match.routeview())
+    // 6. Créer une instance de la vue correspondante
     const view = new match.route.view(getParams(match));
-    // console.log(getParams(match));
 
+    // 7. Mettre à jour le contenu de l'élément HTML avec la vue
     document.querySelector("#app").innerHTML = await view.getHtml()
-
 }
 
-// 4 récupérer le pathname
+// 8. Naviguer vers une nouvelle URL
 const navigateTo = url => {
     history.pushState(null, null, url)
     router()
 }
 
-// 8 history
-
+// 9. Écouter les modifications de l'historique de navigation
 window.addEventListener('popstate', router)
 
-// 5
+// 10. Exécuter le routeur lors du chargement du document
 document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", e => {
-        // ça fait que les liens avec attributs data-link ne vont pas refresh avec le e.preventDefault()
-        if(e.target.matches("[data-link]")){
+        // 11. Empêcher le comportement par défaut des liens avec l'attribut data-link
+        if (e.target.matches("[data-link]")) {
             e.preventDefault()
             navigateTo(e.target.href)
         }
