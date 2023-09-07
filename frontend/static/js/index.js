@@ -1,6 +1,6 @@
 // 6 load view
 import Home from "./views/Home.js"
-import Settings from "./views/Settings.js"
+import About from "./views/About.js"
 // import Stocks from "./views/Stocks.js"
 import StockView from "./views/StockView.js"
 
@@ -27,7 +27,7 @@ const router = async () => {
         {path: '/', view: Home},
         // {path: '/stocks', view: Stocks},
         {path: '/stock-view/:symbol', view: StockView},
-        {path: '/settings', view: Settings}
+        {path: '/about', view: About}
     ]
 
     // 2 match function

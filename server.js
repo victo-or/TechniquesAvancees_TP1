@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require("path");
 
 // tableau avec une sélection de stocks
-const stocks = ["TSLA", "AAPL", "PLTR", "NIO", "GME", "AMC", "MARA", "RIOT"];
+const stocks = ["TSLA", "NIO", "GME", "AMC", "PLTR", "SPCE", "MVIS", "MARA", "RIOT", "SNDL"];
 
 // Fonction pour mettre à jour les données des stocks et les enregistrer dans stocks.json
 function updateStockData() {
@@ -15,7 +15,7 @@ function updateStockData() {
 
     // Boucle sur le tableau des stocks 
     stocks.forEach(ticker => {
-        const url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + ticker + '&interval=60min&apikey=' + API_KEY;
+        const url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + ticker + '&interval=5min&apikey=' + API_KEY;
 
         request.get({
             url: url,

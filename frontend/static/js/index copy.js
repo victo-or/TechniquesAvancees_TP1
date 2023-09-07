@@ -1,6 +1,6 @@
 // 6 load view
 import Home from "./views/Home.js"
-import Settings from "./views/Settings.js"
+import Settings from "./views/About.js"
 import Stocks from "./views/Stocks.js"
 import StockView from "./views/StockView.js"
 
